@@ -320,8 +320,8 @@ app.get('/screeningRooms/:number', (req, res) => {
         var screeningRooms = JSON.parse(screeningRoomsJson);
         var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
         if (!screeningRoom) {
-            console.log("Can't find screeningRoom with number: " + req.params.number);
-            res.status(500).send('Cant find screeningRoom with number: ' + req.params.number);
+            console.log("Can't find screening room with number: " + req.params.number);
+            res.status(500).send('Cant find screening room with number: ' + req.params.number);
             return;
         }
         var screeningRoomJSON = JSON.stringify(screeningRoom);
