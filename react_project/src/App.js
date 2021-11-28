@@ -11,11 +11,27 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="http://localhost:7777/movies"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Przejdź do filmów.
+        </a>
+        <a
+          className="App-link"
+          href="http://localhost:7777/screeningRooms"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Przejdź do sali.
+        </a>
+        <a
+          className="App-link"
+          href="http://localhost:7777/screenings"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Przejdź do seansów.
         </a>
       </header>
     </div>
