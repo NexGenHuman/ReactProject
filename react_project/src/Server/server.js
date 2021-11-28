@@ -88,4 +88,36 @@ app.get('/screenings/:id', (req, res) => {
 
 //-----------------------SCREENING ROOMS
 
+app.get('/screeningRooms', (req, res) => {
+    fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
+        if (err) {
+            console.log("File read failed in GET /screeningRooms: "+ err);
+            res.status(500).send('File read failed');
+            return;
+        }
+        console.log("GET: /screeningRooms");
+        res.send(screeningRoomsJson);
+    });
+});
+
+app.get('/screeningRooms/:id', (req, res) => {
+    fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
+        if (err) {
+            console.log("File read failed in GET /screeningRooms/" + req.params.id + ": "+ err);
+            res.status(500).send('File read failed');
+            return;
+        }
+        var screeningRooms = JSON.parse(screeningRoomsJson);
+        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.id == req.params.id);
+        if (!screeningRoom) {
+            console.log("Can't find screeningRoom with id: " + req.params.id);
+            res.status(500).send('Cant find screeningRoom with id: ' + req.params.id);
+            return;
+        }
+        var screeningRoomJSON = JSON.stringify(screeningRoom);
+        console.log("GET /screeningRooms/" + req.params.id);
+        res.send(screeningRoomJSON);
+    });
+});
+
 app.listen(7777, () => console.log("Server address http://localhost:7777"));
