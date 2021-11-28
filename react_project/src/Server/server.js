@@ -51,4 +51,41 @@ app.get('/movies/:id', (req, res) => {
     });
 });
 
+
+//-----------------------SCREENINGS
+
+app.get('/screenings', (req, res) => {
+    fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
+        if (err) {
+            console.log("File read failed in GET /screenings: "+ err);
+            res.status(500).send('File read failed');
+            return;
+        }
+        console.log("GET: /screenings");
+        res.send(screeningsJson);
+    });
+});
+
+app.get('/screenings/:id', (req, res) => {
+    fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
+        if (err) {
+            console.log("File read failed in GET /screenings/" + req.params.id + ": "+ err);
+            res.status(500).send('File read failed');
+            return;
+        }
+        var screenings = JSON.parse(screeningsJson);
+        var screening = screenings.find(screeningtmp => screeningtmp.id == req.params.id);
+        if (!screening) {
+            console.log("Can't find screening with id: " + req.params.id);
+            res.status(500).send('Cant find screening with id: ' + req.params.id);
+            return;
+        }
+        var screeningJSON = JSON.stringify(screening);
+        console.log("GET /screenings/" + req.params.id);
+        res.send(screeningJSON);
+    });
+});
+
+//-----------------------SCREENING ROOMS
+
 app.listen(7777, () => console.log("Server address http://localhost:7777"));
