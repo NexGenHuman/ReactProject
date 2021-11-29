@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import movieValidator from './Validators/movieValidator.js';
+import screeningValidator from './Validators/screeningValidator.js';
 import axios from 'axios'
 import { Console } from 'console';
 
@@ -82,8 +83,8 @@ app.post('/movies', (req, res) => {
             }
         });
     } else {
-        console.log("POST body does not meet validator requirements");
-        res.status(400).send('POST body does not meet validator requirements');
+        console.log("Movies POST body does not meet validator requirements");
+        res.status(400).send('Movies POST body does not meet validator requirements');
         return;
     }
 });
@@ -135,8 +136,8 @@ app.put('/movies/:id', (req, res) => {
             }
         });
     } else {
-        console.log("PUT body does not meet validator requirements");
-        res.status(400).send('PUT body does not meet validator requirements');
+        console.log("Movies PUT body does not meet validator requirements");
+        res.status(400).send('Movies PUT body does not meet validator requirements');
         return;
     }
 });
@@ -205,79 +206,91 @@ app.get('/screenings/:id', (req, res) => {
 });
 
 app.post('/screenings', (req, res) => {
-    fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
-        if (err) {
-            console.log("File read failed in GET /screenings/" + req.params.id + ": " + err);
-            res.status(500).send('File read failed');
-            return;
-        }
-        var screenings = JSON.parse(screeningsJson);
-        var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
-        if (!screening) {
-            screenings.push(req.body);
-            var newList = JSON.stringify(screenings);
-            fs.writeFile('./JSON/screenings.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in POST /screenings: " + err);
-                    res.status(500).send('Error writing file screenings.json');
-                } else {
-                    res.status(201).send(req.body);
-                    console.log("Successfully wrote file screenings.json and added new screening with id = " + req.body.id);
-                }
-            });
-        } else {
-            console.log("Screening by id = " + req.body.id + " already exists");
-            res.status(500).send('Screening by id = ' + req.body.id + ' already exists');
-            return;
-        }
-    });
+    if (screeningValidator(req.body)) {
+        fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
+            if (err) {
+                console.log("File read failed in GET /screenings/" + req.params.id + ": " + err);
+                res.status(500).send('File read failed');
+                return;
+            }
+            var screenings = JSON.parse(screeningsJson);
+            var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
+            if (!screening) {
+                screenings.push(req.body);
+                var newList = JSON.stringify(screenings);
+                fs.writeFile('./JSON/screenings.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in POST /screenings: " + err);
+                        res.status(500).send('Error writing file screenings.json');
+                    } else {
+                        res.status(201).send(req.body);
+                        console.log("Successfully wrote file screenings.json and added new screening with id = " + req.body.id);
+                    }
+                });
+            } else {
+                console.log("Screening by id = " + req.body.id + " already exists");
+                res.status(500).send('Screening by id = ' + req.body.id + ' already exists');
+                return;
+            }
+        });
+    } else {
+        console.log("Screenings POST body does not meet validator requirements");
+        res.status(400).send('Screenings POST body does not meet validator requirements');
+        return;
+    }
 });
 
 app.put('/screenings/:id', (req, res) => {
-    fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
-        if (err) {
-            console.log("File read failed in PUT /screenings/" + req.params.id + ": " + err);
-            res.status(500).send('File read failed');
-            return;
-        }
-        var screenings = JSON.parse(screeningsJson);
-        var screeningBody = screenings.find(screeningtmp => screeningtmp.id === req.body.id);
-        if (screeningBody && screeningBody.id !== req.params.id) {
-            console.log("Screening by id = " + screeningBody.id + " already exists");
-            res.status(500).send('Screening by id = ' + screeningBody.id + ' already exists');
-            return;
-        }
-        var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
-        if (!screening) {
-            screenings.push(req.body);
-            var newList = JSON.stringify(screenings);
-            fs.writeFile('./JSON/screenings.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in PUT /screenings/" + req.params.id + ": " + err);
-                    res.status(500).send('Error writing file screenings.json');
-                } else {
-                    res.status(201).send(req.body);
-                    console.log("Successfully wrote file screenings.json and added new screening with id = " + req.body.screeningId);
-                }
-            });
-        } else {
-            for (var i = 0; i < screenings.length; i++) {
-                if (screenings[i].id === screening.id) {
-                    screenings[i] = req.body;
-                }
+    if (screeningValidator(req.body)) {
+        fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
+            if (err) {
+                console.log("File read failed in PUT /screenings/" + req.params.id + ": " + err);
+                res.status(500).send('File read failed');
+                return;
             }
-            var newList = JSON.stringify(screenings);
-            fs.writeFile('./JSON/screenings.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in PUT /screenings/" + req.params.id + ": " + err);
-                    res.status(500).send('Error writing file screenings.json');
-                } else {
-                    res.status(200).send(req.body);
-                    console.log("Successfully wrote file screenings.json and edit screening with old id = " + req.params.id);
+            var screenings = JSON.parse(screeningsJson);
+            var screeningBody = screenings.find(screeningtmp => screeningtmp.id === req.body.id);
+            if (screeningBody && screeningBody.id !== req.params.id) {
+                console.log("Screening by id = " + screeningBody.id + " already exists");
+                res.status(500).send('Screening by id = ' + screeningBody.id + ' already exists');
+                return;
+            }
+            var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
+            if (!screening) {
+                screenings.push(req.body);
+                var newList = JSON.stringify(screenings);
+                fs.writeFile('./JSON/screenings.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in PUT /screenings/" + req.params.id + ": " + err);
+                        res.status(500).send('Error writing file screenings.json');
+                    } else {
+                        res.status(201).send(req.body);
+                        console.log("Successfully wrote file screenings.json and added new screening with id = " + req.body.screeningId);
+                    }
+                });
+            } else {
+                for (var i = 0; i < screenings.length; i++) {
+                    if (screenings[i].id === screening.id) {
+                        screenings[i] = req.body;
+                    }
                 }
-            });
-        }
-    });
+                var newList = JSON.stringify(screenings);
+                fs.writeFile('./JSON/screenings.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in PUT /screenings/" + req.params.id + ": " + err);
+                        res.status(500).send('Error writing file screenings.json');
+                    } else {
+                        res.status(200).send(req.body);
+                        console.log("Successfully wrote file screenings.json and edit screening with old id = " + req.params.id);
+                    }
+                });
+            }
+        });
+    } else {
+        console.log("Screenings PUT body does not meet validator requirements");
+        res.status(400).send('Screenings PUT body does not meet validator requirements');
+        return;
+    }
 });
 
 app.delete('/screenings/:id', (req, res) => {
