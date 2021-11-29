@@ -40,7 +40,7 @@ app.get('/movies/:id', (req, res) => {
             return;
         }
         var movies = JSON.parse(moviesJson);
-        var movie = movies.find(movietmp => movietmp.id == req.params.id);
+        var movie = movies.find(movietmp => movietmp.id === req.params.id);
         if (!movie) {
             console.log("Can't find movie with id: " + req.params.id);
             res.status(500).send('Cant find movie with id: ' + req.params.id);
@@ -60,7 +60,7 @@ app.post('/movies', (req, res) => {
             return;
         }
         var movies = JSON.parse(moviesJson);
-        var movie = movies.find(movietmp => movietmp.id == req.params.id);
+        var movie = movies.find(movietmp => movietmp.id === req.params.id);
         if (!movie) {
             movies.push(req.body);
             var newList = JSON.stringify(movies);
@@ -89,13 +89,13 @@ app.put('/movies/:id', (req, res) => {
             return;
         }
         var movies = JSON.parse(moviesJson);
-        var movieBody = movies.find(movietmp => movietmp.id == req.body.id);
-        if (movieBody && movieBody.id != req.params.id) {
+        var movieBody = movies.find(movietmp => movietmp.id === req.body.id);
+        if (movieBody && movieBody.id !== req.params.id) {
             console.log("Movie by id = " + movieBody.id + " already exists");
             res.status(500).send('Movie by id = ' + movieBody.id + ' already exists');
             return;
         }
-        var movie = movies.find(movietmp => movietmp.id == req.params.id);
+        var movie = movies.find(movietmp => movietmp.id === req.params.id);
         if (!movie) {
             movies.push(req.body);
             var newList = JSON.stringify(movies);
@@ -110,7 +110,7 @@ app.put('/movies/:id', (req, res) => {
             });
         } else {
             for (var i = 0; i < movies.length; i++) {
-                if (movies[i].id == movie.id) {
+                if (movies[i].id === movie.id) {
                     movies[i] = req.body;
                 }
             }
@@ -136,8 +136,8 @@ app.delete('/movies/:id', (req, res) => {
             return;
         }
         var movies = JSON.parse(moviesJson);
-        var movieIndex = movies.findIndex(movietmp => movietmp.id == req.params.id);
-        if (movieIndex != -1) {
+        var movieIndex = movies.findIndex(movietmp => movietmp.id === req.params.id);
+        if (movieIndex !== -1) {
             movies.splice(movieIndex, 1);
             var newList = JSON.stringify(movies);
             fs.writeFile('./JSON/movies.json', newList, err => {
@@ -179,7 +179,7 @@ app.get('/screenings/:id', (req, res) => {
             return;
         }
         var screenings = JSON.parse(screeningsJson);
-        var screening = screenings.find(screeningtmp => screeningtmp.id == req.params.id);
+        var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
         if (!screening) {
             console.log("Can't find screening with id: " + req.params.id);
             res.status(500).send('Cant find screening with id: ' + req.params.id);
@@ -199,7 +199,7 @@ app.post('/screenings', (req, res) => {
             return;
         }
         var screenings = JSON.parse(screeningsJson);
-        var screening = screenings.find(screeningtmp => screeningtmp.id == req.params.id);
+        var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
         if (!screening) {
             screenings.push(req.body);
             var newList = JSON.stringify(screenings);
@@ -228,13 +228,13 @@ app.put('/screenings/:id', (req, res) => {
             return;
         }
         var screenings = JSON.parse(screeningsJson);
-        var screeningBody = screenings.find(screeningtmp => screeningtmp.id == req.body.id);
-        if (screeningBody && screeningBody.id != req.params.id) {
+        var screeningBody = screenings.find(screeningtmp => screeningtmp.id === req.body.id);
+        if (screeningBody && screeningBody.id !== req.params.id) {
             console.log("Screening by id = " + screeningBody.id + " already exists");
             res.status(500).send('Screening by id = ' + screeningBody.id + ' already exists');
             return;
         }
-        var screening = screenings.find(screeningtmp => screeningtmp.id == req.params.id);
+        var screening = screenings.find(screeningtmp => screeningtmp.id === req.params.id);
         if (!screening) {
             screenings.push(req.body);
             var newList = JSON.stringify(screenings);
@@ -249,7 +249,7 @@ app.put('/screenings/:id', (req, res) => {
             });
         } else {
             for (var i = 0; i < screenings.length; i++) {
-                if (screenings[i].id == screening.id) {
+                if (screenings[i].id === screening.id) {
                     screenings[i] = req.body;
                 }
             }
@@ -275,8 +275,8 @@ app.delete('/screenings/:id', (req, res) => {
             return;
         }
         var screenings = JSON.parse(screeningsJson);
-        var screeningIndex = screenings.findIndex(screeningtmp => screeningtmp.id == req.params.id);
-        if (screeningIndex != -1) {
+        var screeningIndex = screenings.findIndex(screeningtmp => screeningtmp.id === req.params.id);
+        if (screeningIndex !== -1) {
             screenings.splice(screeningIndex, 1);
             var newList = JSON.stringify(screenings);
             fs.writeFile('./JSON/screenings.json', newList, err => {
@@ -318,7 +318,7 @@ app.get('/screeningRooms/:number', (req, res) => {
             return;
         }
         var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
+        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
         if (!screeningRoom) {
             console.log("Can't find screening room with number: " + req.params.number);
             res.status(500).send('Cant find screening room with number: ' + req.params.number);
@@ -338,7 +338,7 @@ app.post('/screeningRooms', (req, res) => {
             return;
         }
         var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
+        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
         if (!screeningRoom) {
             screeningRooms.push(req.body);
             var newList = JSON.stringify(screeningRooms);
@@ -367,13 +367,13 @@ app.put('/screeningRooms/:number', (req, res) => {
             return;
         }
         var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoomBody = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.body.number);
-        if (screeningRoomBody && screeningRoomBody.number != req.params.number) {
+        var screeningRoomBody = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.body.number);
+        if (screeningRoomBody && screeningRoomBody.number !== req.params.number) {
             console.log("Screening room by number = " + screeningRoomBody.number + " already exists");
             res.status(500).send('Screening room by number = ' + screeningRoomBody.number + ' already exists');
             return;
         }
-        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
+        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
         if (!screeningRoom) {
             screeningRooms.push(req.body);
             var newList = JSON.stringify(screeningRooms);
@@ -388,7 +388,7 @@ app.put('/screeningRooms/:number', (req, res) => {
             });
         } else {
             for (var i = 0; i < screeningRooms.length; i++) {
-                if (screeningRooms[i].number == screeningRoom.number) {
+                if (screeningRooms[i].number === screeningRoom.number) {
                     screeningRooms[i] = req.body;
                 }
             }
@@ -414,8 +414,8 @@ app.delete('/screeningRooms/:number', (req, res) => {
             return;
         }
         var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoomIndex = screeningRooms.findIndex(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
-        if (screeningRoomIndex != -1) {
+        var screeningRoomIndex = screeningRooms.findIndex(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
+        if (screeningRoomIndex !== -1) {
             screeningRooms.splice(screeningRoomIndex, 1);
             var newList = JSON.stringify(screeningRooms);
             fs.writeFile('./JSON/screeningRooms.json', newList, err => {
