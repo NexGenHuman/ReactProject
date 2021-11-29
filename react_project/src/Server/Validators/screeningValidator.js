@@ -13,6 +13,10 @@ export default function screeningValidator(screening) {
         console.log('Invalid screening/time value in request body');
         return false; 
         }
+    if(date < new Date()) {
+        console.log('Invalid screening/date-time precedes current date');
+        return false; 
+        }
     if(typeof screening.movieID !== 'number' || screening.movieID < 0) {
         console.log('Invalid screening/movieID value in request body');
         return false; 
