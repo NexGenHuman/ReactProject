@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import movieValidator from './Validators/movieValidator.js';
 import screeningValidator from './Validators/screeningValidator.js';
+import screeningRoomValidator from './Validators/screeningRoomValidator.js';
 import axios from 'axios'
 import { Console } from 'console';
 
@@ -357,79 +358,91 @@ app.get('/screeningRooms/:number', (req, res) => {
 });
 
 app.post('/screeningRooms', (req, res) => {
-    fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
-        if (err) {
-            console.log("File read failed in GET /screeningRooms/" + req.params.number + ": " + err);
-            res.status(500).send('File read failed');
-            return;
-        }
-        var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
-        if (!screeningRoom) {
-            screeningRooms.push(req.body);
-            var newList = JSON.stringify(screeningRooms);
-            fs.writeFile('./JSON/screeningRooms.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in POST /screeningRooms: " + err);
-                    res.status(500).send('Error writing file screeningRooms.json');
-                } else {
-                    res.status(201).send(req.body);
-                    console.log("Successfully wrote file screeningRooms.json and added new screening room with number = " + req.body.number);
-                }
-            });
-        } else {
-            console.log("Screening room by number = " + req.body.number + " already exists");
-            res.status(500).send('Screening room by number = ' + req.body.number + ' already exists');
-            return;
-        }
-    });
+    if (screeningRoomValidator(req.body)) {
+        fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
+            if (err) {
+                console.log("File read failed in GET /screeningRooms/" + req.params.number + ": " + err);
+                res.status(500).send('File read failed');
+                return;
+            }
+            var screeningRooms = JSON.parse(screeningRoomsJson);
+            var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
+            if (!screeningRoom) {
+                screeningRooms.push(req.body);
+                var newList = JSON.stringify(screeningRooms);
+                fs.writeFile('./JSON/screeningRooms.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in POST /screeningRooms: " + err);
+                        res.status(500).send('Error writing file screeningRooms.json');
+                    } else {
+                        res.status(201).send(req.body);
+                        console.log("Successfully wrote file screeningRooms.json and added new screening room with number = " + req.body.number);
+                    }
+                });
+            } else {
+                console.log("Screening room by number = " + req.body.number + " already exists");
+                res.status(500).send('Screening room by number = ' + req.body.number + ' already exists');
+                return;
+            }
+        });
+    } else {
+        console.log("Screening rooms POST body does not meet validator requirements");
+        res.status(400).send('Screening rooms POST body does not meet validator requirements');
+        return;
+    }
 });
 
 app.put('/screeningRooms/:number', (req, res) => {
-    fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
-        if (err) {
-            console.log("File read failed in PUT /screeningRooms/" + req.params.number + ": " + err);
-            res.status(500).send('File read failed');
-            return;
-        }
-        var screeningRooms = JSON.parse(screeningRoomsJson);
-        var screeningRoomBody = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.body.number);
-        if (screeningRoomBody && screeningRoomBody.number !== req.params.number) {
-            console.log("Screening room by number = " + screeningRoomBody.number + " already exists");
-            res.status(500).send('Screening room by number = ' + screeningRoomBody.number + ' already exists');
-            return;
-        }
-        var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
-        if (!screeningRoom) {
-            screeningRooms.push(req.body);
-            var newList = JSON.stringify(screeningRooms);
-            fs.writeFile('./JSON/screeningRooms.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in PUT /screeningRooms/" + req.params.number + ": " + err);
-                    res.status(500).send('Error writing file screeningRooms.json');
-                } else {
-                    res.status(201).send(req.body);
-                    console.log("Successfully wrote file screeningRooms.json and added new screening room with number = " + req.body.screeningRoomnumber);
-                }
-            });
-        } else {
-            for (var i = 0; i < screeningRooms.length; i++) {
-                if (screeningRooms[i].number === screeningRoom.number) {
-                    screeningRooms[i] = req.body;
-                }
+    if (screeningRoomValidator(req.body)) {
+        fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
+            if (err) {
+                console.log("File read failed in PUT /screeningRooms/" + req.params.number + ": " + err);
+                res.status(500).send('File read failed');
+                return;
             }
-            var newList = JSON.stringify(screeningRooms);
-            fs.writeFile('./JSON/screeningRooms.json', newList, err => {
-                if (err) {
-                    console.log("Error writing file in PUT /screeningRooms/" + req.params.number + ": " + err);
-                    res.status(500).send('Error writing file screeningRooms.json');
-                } else {
-                    res.status(200).send(req.body);
-                    console.log("Successfully wrote file screeningRooms.json and edit screening room with old number = " + req.params.number);
+            var screeningRooms = JSON.parse(screeningRoomsJson);
+            var screeningRoomBody = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.body.number);
+            if (screeningRoomBody && screeningRoomBody.number !== req.params.number) {
+                console.log("Screening room by number = " + screeningRoomBody.number + " already exists");
+                res.status(500).send('Screening room by number = ' + screeningRoomBody.number + ' already exists');
+                return;
+            }
+            var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number === req.params.number);
+            if (!screeningRoom) {
+                screeningRooms.push(req.body);
+                var newList = JSON.stringify(screeningRooms);
+                fs.writeFile('./JSON/screeningRooms.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in PUT /screeningRooms/" + req.params.number + ": " + err);
+                        res.status(500).send('Error writing file screeningRooms.json');
+                    } else {
+                        res.status(201).send(req.body);
+                        console.log("Successfully wrote file screeningRooms.json and added new screening room with number = " + req.body.screeningRoomnumber);
+                    }
+                });
+            } else {
+                for (var i = 0; i < screeningRooms.length; i++) {
+                    if (screeningRooms[i].number === screeningRoom.number) {
+                        screeningRooms[i] = req.body;
+                    }
                 }
-            });
-        }
-    });
+                var newList = JSON.stringify(screeningRooms);
+                fs.writeFile('./JSON/screeningRooms.json', newList, err => {
+                    if (err) {
+                        console.log("Error writing file in PUT /screeningRooms/" + req.params.number + ": " + err);
+                        res.status(500).send('Error writing file screeningRooms.json');
+                    } else {
+                        res.status(200).send(req.body);
+                        console.log("Successfully wrote file screeningRooms.json and edit screening room with old number = " + req.params.number);
+                    }
+                });
+            }
+        });
+    } else {
+        console.log("Screening rooms PUT body does not meet validator requirements");
+        res.status(400).send('Screening rooms PUT body does not meet validator requirements');
+        return;
+    }
 });
 
 app.delete('/screeningRooms/:number', (req, res) => {
