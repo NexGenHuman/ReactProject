@@ -150,11 +150,9 @@ app.delete('/movies/:id', (req, res) => {
             res.status(500).send('File read failed');
             return;
         }
-        console.log('hi 1');
         var movies = JSON.parse(moviesJson);
         var movieIndex = movies.findIndex(movietmp => movietmp.id == req.params.id);
         if (movieIndex != -1) {
-            console.log('hi 2');
             movies.splice(movieIndex, 1);
             var newList = JSON.stringify(movies);
             fs.writeFile('./JSON/movies.json', newList, err => {
@@ -167,7 +165,6 @@ app.delete('/movies/:id', (req, res) => {
                 }
             });
         } else {
-            console.log('hi 3');
             console.log("Movie by id = " + req.params.id + " does not exists");
             res.status(500).send('Movie by id = ' + req.params.id + ' does not exists');
             return;
@@ -180,7 +177,6 @@ app.delete('/movies/:id', (req, res) => {
             res.status(500).send('File read failed');
             return;
         }
-        console.log('hi 4');
         var screenings = JSON.parse(screeningsJson);
 
         let i = screenings.length - 1;
@@ -189,10 +185,8 @@ app.delete('/movies/:id', (req, res) => {
                 screenings.splice(i, 1);
             }
             i--;
-            console.log(screenings);
         }
 
-        console.log('hi 6');
         var newList = JSON.stringify(screenings);
         fs.writeFile('./JSON/screenings.json', newList, err => {
             if (err) {
@@ -200,10 +194,9 @@ app.delete('/movies/:id', (req, res) => {
                 res.status(500).send('Error writing file screenings.json');
             } else {
                 res.status(204).send();
-                console.log("Successfully deleted screening with id = " + req.params.id);
+                console.log("Successfully deleted screenings with movie id = " + req.params.id);
             }
         });
-        console.log('hi 7');
     });
 });
 
@@ -495,9 +488,9 @@ app.delete('/screeningRooms/:number', (req, res) => {
             fs.writeFile('./JSON/screeningRooms.json', newList, err => {
                 if (err) {
                     console.log("Error writing file in DELETE /screeningRooms/" + req.params.number + ": " + err);
-                    res.status(500).send('Error writing file screeningRooms.json');
+                    //res.status(500).send('Error writing file screeningRooms.json');
                 } else {
-                    res.status(204).send();
+                    //res.status(204).send();
                     console.log("Successfully deleted screening room with number = " + req.params.number);
                 }
             });
@@ -506,6 +499,34 @@ app.delete('/screeningRooms/:number', (req, res) => {
             res.status(500).send('Screening room by number = ' + req.params.number + ' does not exists');
             return;
         }
+    });
+
+    fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
+        if (err) {
+            console.log("File read failed in DELETE /screenings: " + err);
+            res.status(500).send('File read failed');
+            return;
+        }
+        var screenings = JSON.parse(screeningsJson);
+
+        let i = screenings.length - 1;
+        while (i >= 0) {
+            if (screenings[i].screeningRoomNum == req.params.number) {
+                screenings.splice(i, 1);
+            }
+            i--;
+        }
+
+        var newList = JSON.stringify(screenings);
+        fs.writeFile('./JSON/screenings.json', newList, err => {
+            if (err) {
+                console.log("Error writing file in DELETE /screenings/" + req.params.id + ": " + err);
+                res.status(500).send('Error writing file screenings.json');
+            } else {
+                res.status(204).send();
+                console.log("Successfully deleted screenings with room number " + req.params.number);
+            }
+        });
     });
 });
 
