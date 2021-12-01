@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import { Routes, Route } from 'react-router-dom';
+import Getdate from './Getdate';
 
 axios.get('http://localhost:7777/movies').then(response => console.log(response));
 
@@ -12,13 +14,23 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <Routes>
+          <Route path='/Getdate' element={<Getdate/>}>Get date</Route>
+        </Routes>
         <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="http://localhost:7777/movies"
         >
-          Learn React
+          View movies
+        </a>
+        <a
+          href="http://localhost:7777/screeningRooms"
+        >
+          View rooms
+        </a>
+        <a
+          href="http://localhost:7777/screenings"
+        >
+          View screening
         </a>
       </header>
     </div>
