@@ -93,7 +93,7 @@ export default class AddScreeningComponent extends React.Component {
                 <this.MovieList />
                 <p>Select the room to be aired in</p>
                 <this.RoomList /><br />
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="Create"></input>
             </form>
         );
     }

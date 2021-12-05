@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AddScreeningComponent from './Components/AddScreeningComponent';
+import AddScreeningRoomComponent from './Components/AddScreeningRoomComponent';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AddScreeningComponent />
+    <AddScreeningRoomComponent />
   </React.StrictMode>,
   document.getElementById('root')
 );
