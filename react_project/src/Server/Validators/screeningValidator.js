@@ -13,7 +13,7 @@ export default function screeningValidator(screening) {
         return false;
     }
     if (screening.startTime == '') {
-        console.log('Empty date in request');
+        console.log('Empty time in request');
         return false;
     }
     date = new Date(screening.date + 'T' + screening.startTime);
@@ -26,11 +26,11 @@ export default function screeningValidator(screening) {
         return false;
     }
     if (typeof screening.movieID !== 'number' || screening.movieID < 0) {
-        console.log('Invalid screening/movieID value in request body');
+        console.log('Invalid screening/movieID value: ' + screening.movieID + ' in request body');
         return false;
     }
     if (typeof screening.screeningRoomNum !== 'number' || screening.screeningRoomNum < 0) {
-        console.log('Invalid screening/screeningRoomNum value in request body');
+        console.log('Invalid screening/screeningRoomNum value ' + screening.screeningRoomNum + ' in request body');
         return false;
     }
     if (typeof screening.soldTicketsNumber !== 'number' || screening.soldTicketsNumber < 0) {

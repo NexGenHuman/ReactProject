@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AddScreeningComponent from './Components/AddScreeningComponent';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AddScreeningComponent />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 export default class Screening {
-    constructor (date, startTime, movieID, screeningRoomNum, soldTicketsNumber, takenSeats, id) {
+    constructor(id, date, startTime, movieID, screeningRoomNum, soldTicketsNumber, takenSeats, roomCapacity) {
         //Unique ID number of a movie
         this.id = id;
         //Date of the screening expressed in YYYY-MM-DD format
@@ -15,11 +13,7 @@ export default class Screening {
         //Number of sold tickets
         this.soldTicketsNumber = soldTicketsNumber;
         //Number of tickets available for sale
-        this.availableTicketsNumber = (available) => {
-            let screeningRoomJSON = axios.get('http://localhost:7777/screeningRooms/' + this.screeningRoomNum).then(response => console.log(response.data));
-            let screeningRoom = JSON.parse(screeningRoomJSON);
-            available = screeningRoom.capacity - soldTicketsNumber;
-        }
+        this.availableTicketsNumber = roomCapacity - soldTicketsNumber;
         //Array containing numbers of taken seats
         this.takenSeats = takenSeats;
     }

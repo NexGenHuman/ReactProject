@@ -1,8 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
-
-axios.get('http://localhost:7777/movies').then(response => console.log(response));
 
 function App() {
   return (

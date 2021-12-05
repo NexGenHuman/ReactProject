@@ -59,12 +59,12 @@ app.post('/movies', (req, res) => {
     if (movieValidator(req.body)) {
         fs.readFile('./JSON/movies.json', 'utf8', (err, moviesJson) => {
             if (err) {
-                console.log("File read failed in GET /movies/" + req.params.id + ": " + err);
+                console.log("File read failed in GET /movies/" + req.body.number + ": " + err);
                 res.status(500).send('File read failed');
                 return;
             }
             var movies = JSON.parse(moviesJson);
-            var movie = movies.find(movietmp => movietmp.id == req.params.id);
+            var movie = movies.find(movietmp => movietmp.id == req.body.number);
             if (!movie) {
                 movies.push(req.body);
                 var newList = JSON.stringify(movies);
@@ -238,12 +238,12 @@ app.post('/screenings', (req, res) => {
     if (screeningValidator(req.body)) {
         fs.readFile('./JSON/screenings.json', 'utf8', (err, screeningsJson) => {
             if (err) {
-                console.log("File read failed in GET /screenings/" + req.params.id + ": " + err);
+                console.log("File read failed in GET /screenings/" + req.body.id + ": " + err);
                 res.status(500).send('File read failed');
                 return;
             }
             var screenings = JSON.parse(screeningsJson);
-            var screening = screenings.find(screeningtmp => screeningtmp.id == req.params.id);
+            var screening = screenings.find(screeningtmp => screeningtmp.id == req.body.id);
             if (!screening) {
                 screenings.push(req.body);
                 var newList = JSON.stringify(screenings);
@@ -389,12 +389,12 @@ app.post('/screeningRooms', (req, res) => {
     if (screeningRoomValidator(req.body)) {
         fs.readFile('./JSON/screeningRooms.json', 'utf8', (err, screeningRoomsJson) => {
             if (err) {
-                console.log("File read failed in GET /screeningRooms/" + req.params.number + ": " + err);
+                console.log("File read failed in GET /screeningRooms/" + req.body.number + ": " + err);
                 res.status(500).send('File read failed');
                 return;
             }
             var screeningRooms = JSON.parse(screeningRoomsJson);
-            var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.params.number);
+            var screeningRoom = screeningRooms.find(screeningRoomtmp => screeningRoomtmp.number == req.body.number);
             if (!screeningRoom) {
                 screeningRooms.push(req.body);
                 var newList = JSON.stringify(screeningRooms);
