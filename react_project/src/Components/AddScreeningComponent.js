@@ -7,7 +7,8 @@ export default class AddScreeningComponent extends React.Component {
         super(props);
         this.state = {
             movies: [],
-            rooms: []
+            rooms: [],
+            lastID: 0
         }
     }
 
@@ -22,6 +23,11 @@ export default class AddScreeningComponent extends React.Component {
             .then(res => {
                 const rooms = res.data;
                 this.setState({ rooms });
+            });
+        axios.get("http://localhost:7777/screenings")
+            .then(res => {
+                const lastID = res.data[res.data.length - 1].id;
+                this.setState({ lastID });
             });
     }
 
@@ -49,12 +55,16 @@ export default class AddScreeningComponent extends React.Component {
         e.preventDefault()
 
         let reqObj = new Screening(
-            9,
+            this.state.lastID + 1,
             e.target.screening_date.value,
             e.target.screening_time.value,
             e.target.movies.value * 1,
             e.target.rooms.value * 1,
-            0, [], this.state.rooms.find(roomtmp => roomtmp.number === e.target.rooms.value * 1).capacity);
+            0, [], this.state.rooms.find(roomtmp => roomtmp.number === e.target.rooms.value * 1).capacity)
+
+        this.setState(prevState => {
+            return { lastID: prevState.lastID + 1 };
+        })
 
         const body = {
             id: reqObj.id,
@@ -65,7 +75,7 @@ export default class AddScreeningComponent extends React.Component {
             soldTicketsNumber: reqObj.soldTicketsNumber,
             availableTicketsNumber: reqObj.availableTicketsNumber,
             takenSeats: reqObj.takenSeats
-        };
+        }
 
         axios.post('http://localhost:7777/screenings', body)
             .then(response => console.log(response.data))
