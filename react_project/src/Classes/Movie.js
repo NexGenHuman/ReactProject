@@ -1,5 +1,5 @@
 export default class Movie {
-    constructor (title, length, id) {
+    constructor (id, title, length) {
         //Unique ID number of a movie
         this.id = id;
         //Title of a movie

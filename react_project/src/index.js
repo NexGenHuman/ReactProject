@@ -4,10 +4,11 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AddScreeningComponent from './Components/AddScreeningComponent';
 import AddScreeningRoomComponent from './Components/AddScreeningRoomComponent';
+import AddMovieComponent from './Components/AddMovieComponent'
 
 ReactDOM.render(
   <React.StrictMode>
-    <AddScreeningRoomComponent />
+    <AddMovieComponent />
   </React.StrictMode>,
   document.getElementById('root')
 );

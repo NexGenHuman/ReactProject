@@ -5,8 +5,8 @@ export default function movieValidator(movie) {
         }
     else if(typeof movie.title !== 'string' || 
                    movie.title.length <= 1 || 
-                   !isNaN(movie.title.charAt(0)) || 
-                   movie.title.charAt(0) === movie.title.charAt(0).toUpperCase()) {
+                   !(!isNaN(movie.title.charAt(0)) || 
+                   movie.title.charAt(0) === movie.title.charAt(0).toUpperCase())) {
         console.log('Invalid movie/title value in request body')
         return false; 
         }

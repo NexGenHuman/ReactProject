@@ -59,12 +59,12 @@ app.post('/movies', (req, res) => {
     if (movieValidator(req.body)) {
         fs.readFile('./JSON/movies.json', 'utf8', (err, moviesJson) => {
             if (err) {
-                console.log("File read failed in GET /movies/" + req.body.number + ": " + err);
+                console.log("File read failed in GET /movies/" + req.body.id + ": " + err);
                 res.status(500).send('File read failed');
                 return;
             }
             var movies = JSON.parse(moviesJson);
-            var movie = movies.find(movietmp => movietmp.id == req.body.number);
+            var movie = movies.find(movietmp => movietmp.id == req.body.id);
             if (!movie) {
                 movies.push(req.body);
                 var newList = JSON.stringify(movies);
