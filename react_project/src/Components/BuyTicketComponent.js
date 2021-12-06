@@ -31,7 +31,7 @@ export default class BuyTicketComponent extends React.Component {
         e.preventDefault();
         this.state.screenings.map((Screening) => {
             if (Screening.id == e.target.screening_id.value) {
-        axios.get("http://localhost:7777/screenings"+ Screening.id)
+        axios.get("http://localhost:7777/screenings/"+ Screening.id)
         .then(res => {
             const id = res.data.id;
             const date=res.data.date;
