@@ -26,25 +26,25 @@ export default class AddScreeningRoomComponent extends React.Component {
             e.target.capacity_input.value * 1
         );
 
-        this.setState(prevState => {
-            return { lastID: prevState.lastID + 1 };
-        });
-
         const body = {
             number: reqObj.number,
             capacity: reqObj.capacity
         };
 
         axios.post('http://localhost:7777/screeningRooms', body)
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error));
+            .then(response => {
+                this.setState(prevState => {
+                    return { lastID: prevState.lastID + 1 };
+                })
+                console.log(response.data)
+            }).catch(error => console.log(error))
     }
 
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <label>Movie nr.{this.state.lastID + 1} capacity:</label><br/>
-                <input type="number" name="capacity_input"/>
+                <label>Movie nr.{this.state.lastID + 1} capacity:</label><br />
+                <input type="number" name="capacity_input" />
                 <input type="submit" value="Create"></input>
             </form>
         )

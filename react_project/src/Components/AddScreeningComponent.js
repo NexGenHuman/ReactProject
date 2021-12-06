@@ -62,10 +62,6 @@ export default class AddScreeningComponent extends React.Component {
             e.target.rooms.value * 1,
             0, [], this.state.rooms.find(roomtmp => roomtmp.number === e.target.rooms.value * 1).capacity)
 
-        this.setState(prevState => {
-            return { lastID: prevState.lastID + 1 };
-        })
-
         const body = {
             id: reqObj.id,
             date: reqObj.date,
@@ -78,8 +74,12 @@ export default class AddScreeningComponent extends React.Component {
         }
 
         axios.post('http://localhost:7777/screenings', body)
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error))
+            .then(response => { 
+                this.setState(prevState => {
+                    return { lastID: prevState.lastID + 1 };
+                })
+                console.log(response.data)
+            }).catch(error => console.log(error))
     }
 
     render() {

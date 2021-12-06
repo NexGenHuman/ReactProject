@@ -18,7 +18,7 @@ export default class AddMovieComponent extends React.Component {
             });
     }
 
-    handleSubmit  = (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         let reqObj = new Movie(
@@ -27,10 +27,6 @@ export default class AddMovieComponent extends React.Component {
             e.target.length_input.value * 1
         )
 
-        this.setState(prevState => {
-            return { lastID: prevState.lastID + 1 };
-        });
-
         const body = {
             id: reqObj.id,
             title: reqObj.title,
@@ -38,17 +34,21 @@ export default class AddMovieComponent extends React.Component {
         }
 
         axios.post('http://localhost:7777/movies', body)
-            .then(response => console.log(response.data))
-            .catch(error => console.log(error));
+            .then(response => {
+                this.setState(prevState => {
+                    return { lastID: prevState.lastID + 1 };
+                })
+                console.log(response.data)
+            }).catch(error => console.log(error))
     }
 
     render() {
         return (
             <form onSubmit={e => this.handleSubmit(e)}>
-                <label>Movie title: </label><br/>
-                <input type="text" name="title_input"/><br/>
-                <label>Movie length in minutes: </label><br/>
-                <input type="number" name="length_input"/><br/>
+                <label>Movie title: </label><br />
+                <input type="text" name="title_input" /><br />
+                <label>Movie length in minutes: </label><br />
+                <input type="number" name="length_input" /><br />
                 <input type="submit" value="Create"></input>
             </form>
         );
