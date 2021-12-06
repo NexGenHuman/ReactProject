@@ -59,7 +59,7 @@ export default class BuyTicketComponent extends React.Component {
             let add=0;
             add=e.target.seat_num.value;
             if(!seats.includes(add)){
-            amount+=1;
+            amount=amount+1;
             seats.push(add);
         }
             this.setState({seats});
