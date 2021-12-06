@@ -89,8 +89,8 @@ export default class BuyTicketComponent extends React.Component {
             <div>
                 <form onSubmit={e => this.handleSubmit(e)}>
                     <label>Screening Ticket:</label><br />
-                    <input type="number" name="screening_id" /><br />
-                    <input type="number" name="seat_num"/><br/>
+                    <input type="number" name="screening_id"/><br />
+                    <input type="number" name="seat_num" /><br/>
                     <input type="submit" value="Buy" ></input>
                 </form>
             </div>
