@@ -19,8 +19,6 @@ export default class AddMovieComponent extends React.Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
-
         let reqObj = new Movie(
             this.state.lastID + 1,
             e.target.title_input.value,

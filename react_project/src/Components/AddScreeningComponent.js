@@ -52,8 +52,6 @@ export default class AddScreeningComponent extends React.Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault()
-
         let reqObj = new Screening(
             this.state.lastID + 1,
             e.target.screening_date.value,

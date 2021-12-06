@@ -19,8 +19,6 @@ export default class AddScreeningRoomComponent extends React.Component {
     }
 
     handleSubmit = (e) => {
-        e.preventDefault();
-
         let reqObj = new ScreeningRoom(
             this.state.lastID + 1,
             e.target.capacity_input.value * 1
