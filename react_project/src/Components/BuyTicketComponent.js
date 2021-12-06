@@ -62,14 +62,14 @@ export default class BuyTicketComponent extends React.Component {
             this.setState({amount});
     }
                 axios.put("http://localhost:7777/screenings/" + e.target.screening_id.value,{
-                    id: this.id,
-                    date: this.date,
-                    startTime: this.startTime,
-                    movieID: this.movieID,
-                    screeningRoomNum: this.screeningRoomNum,
-                    soldTicketsNumber: this.soldTicketsNumber,
-                    availableTicketsNumber: this.availableTicketsNumber,
-                    takenSeats: this.takenSeats
+                    id: this.state.id,
+                    date: this.state.date,
+                    startTime: this.state.startTime,
+                    movieID: this.state.movieID,
+                    screeningRoomNum: this.state.screeningRoomNum,
+                    soldTicketsNumber: this.state.amount,
+                    availableTicketsNumber: this.state.max,
+                    takenSeats: this.state.seats
                 }).then(res => {
                     this.setState({ toPrint:"Dodano" })
                 })
