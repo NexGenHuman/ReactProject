@@ -33,6 +33,17 @@ export default class GetPopularity extends React.Component {
                         }
                         this.setState({ toPrint: [...this.state.toPrint, item] })
                     })
+            }else{
+                axios.get("http://localhost:7777/movies/" + screening.movieID)
+                .then(res => {
+                    const movie = res.data;
+                    const item = {
+                        id: movie.id,
+                        title: movie.title,
+                        popularity: 0
+                    }
+                    this.setState({ toPrint: [...this.state.toPrint, item] })
+                })
             }
         })
         this.state.screenings.map((screening) => {
