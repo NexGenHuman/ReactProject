@@ -29,7 +29,9 @@ export default class BuyTicketComponent extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        axios.get("http://localhost:7777/screenings"+ e.target.screening_id.value)
+        this.state.screenings.map((Screening) => {
+            if (Screening.id == e.target.screening_id.value) {
+        axios.get("http://localhost:7777/screenings"+ Screening.id)
         .then(res => {
             const id = res.data.id;
             const date=res.data.date;
@@ -47,7 +49,9 @@ export default class BuyTicketComponent extends React.Component {
             this.setState({seats});
             this.setState({amount});
             this.setState({max});
-        });
+        })
+    }})
+
         const maxs=this.state.max
         if(maxs!=0){
             let seats=this.state.seats;
@@ -61,7 +65,9 @@ export default class BuyTicketComponent extends React.Component {
             this.setState({seats});
             this.setState({amount});
     }
-                axios.put("http://localhost:7777/screenings/" + e.target.screening_id.value,{
+    this.state.screenings.map((Screening) => {
+        if (Screening.id == e.target.screening_id.value) {
+                axios.put("http://localhost:7777/screenings/" + Screening.id,{
                     id: this.state.id,
                     date: this.state.date,
                     startTime: this.state.startTime,
@@ -74,7 +80,8 @@ export default class BuyTicketComponent extends React.Component {
                     this.setState({ toPrint:"Dodano" })
                 })
 
-    }
+    }})
+}
 
     render() {
         console.log(this.state.toPrint);
