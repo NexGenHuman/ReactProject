@@ -10,6 +10,8 @@ import GetPopularity from './Components/GetPopularity';
 import DeleteScreeningComponent from './Components/DeleteScreeningComponent';
 import DeleteScreeningRoomComponent from './Components/DeleteScreeningRoomComponent';
 import DeleteMovieComponent from './Components/DeleteMovieComponent';
+import EditScreeningComponent from './Components/EditScreeningComponent';
+import EditMovieComponent from "./Components/EditMovieComponent";
 
 function App() {
   return (
@@ -26,12 +28,15 @@ function App() {
           <p><Link to="/DeleteScreening">Delete chosen screening</Link></p>
           <p><Link to="/DeleteScreeningRoom">Delete chosen screening room</Link></p>
           <p><Link to="/DeleteMovie">Delete chosen movie</Link></p>
+          <p><Link to="/EditScreening">Edit chosen screening</Link></p>
+          <p><Link to="/editMovie">Edit movie</Link></p>
         </div>
 
         <Routes>
           <Route exact path="/" element={<HomeComponent />} />
           <Route exact path="/addScreening" element={<AddScreeningComponent />} />
           <Route exact path="/addMovie" element={<AddMovieComponent />} />
+          <Route exact path="/editMovie" element={<EditMovieComponent />} />
           <Route exact path="/addScreeningRoom" element={<AddScreeningRoomComponent />} />
           <Route exact path="/GetDate" element={<GetDateComponent />} />
           <Route exact path="/BuyTicket" element={<BuyTicketComponent/>}/>
@@ -39,6 +44,7 @@ function App() {
           <Route exact path="/DeleteScreening" element={<DeleteScreeningComponent/>}/>
           <Route exact path="/DeleteScreeningRoom" element={<DeleteScreeningRoomComponent/>}/>
           <Route exact path="/DeleteMovie" element={<DeleteMovieComponent/>}/>
+          <Route exact path="/editScreening" element={<EditScreeningComponent />} />
         </Routes>
       </Router>
     </div>
