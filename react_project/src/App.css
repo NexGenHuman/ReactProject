@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.routerContainer {
+  display: grid;
+  margin-top: 5rem;
+  grid-template-columns: [first] 50% [line2] 50%;
+}

@@ -10,7 +10,7 @@ import GetPopularity from './Components/GetPopularity';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App routerContainer">
       <Router>
         <div className="pageSelection">
           <p><Link to="/">Home</Link></p>
