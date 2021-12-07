@@ -7,6 +7,7 @@ import HomeComponent from './Components/HomeComponent';
 import GetDateComponent from './Components/GetDateComponent';
 import BuyTicketComponent from './Components/BuyTicketComponent';
 import GetPopularity from './Components/GetPopularity';
+import DeleteScreeningComponent from './Components/DeleteScreeningComponent';
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
           <p><Link to="/addScreening">Add screening</Link></p>
           <p><Link to="/addMovie">Add movie</Link></p>
           <p><Link to="/addScreeningRoom">Add screening room</Link></p>
-          <p><Link to="/GetDateComponent">Get date</Link></p>
-          <p><Link to="/BuyTicketComponent">Buy Ticket</Link></p>
+          <p><Link to="/GetDate">Get date</Link></p>
+          <p><Link to="/BuyTicket">Buy Ticket</Link></p>
           <p><Link to="/GetPopularity">How popular is the movie</Link></p>
+          <p><Link to="/DeleteScreening">Delete chosen movie</Link></p>
         </div>
 
         <Routes>
@@ -27,9 +29,10 @@ function App() {
           <Route exact path="/addScreening" element={<AddScreeningComponent />} />
           <Route exact path="/addMovie" element={<AddMovieComponent />} />
           <Route exact path="/addScreeningRoom" element={<AddScreeningRoomComponent />} />
-          <Route exact path="/GetDateComponent" element={<GetDateComponent />} />
-          <Route exact path="/BuyTicketComponent" element={<BuyTicketComponent/>}/>
+          <Route exact path="/GetDate" element={<GetDateComponent />} />
+          <Route exact path="/BuyTicket" element={<BuyTicketComponent/>}/>
           <Route exact path="/GetPopularity" element={<GetPopularity/>}/>
+          <Route exact path="/DeleteScreening" element={<DeleteScreeningComponent/>}/>
         </Routes>
       </Router>
     </div>
