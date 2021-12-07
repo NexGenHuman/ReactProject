@@ -102,7 +102,8 @@ export default class AddScreeningComponent extends React.Component {
             screeningRoomNum: reqObj.screeningRoomNum,
             soldTicketsNumber: reqObj.soldTicketsNumber,
             availableTicketsNumber: reqObj.availableTicketsNumber,
-            takenSeats: reqObj.takenSeats
+            takenSeats: reqObj.takenSeats,
+            roomCapacity: reqObj.roomCapacity
         }
         const toEdit=e.target.item.value * 1;
         axios.put('http://localhost:7777/screenings/'+ toEdit, body)
