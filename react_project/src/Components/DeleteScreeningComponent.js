@@ -56,7 +56,7 @@ export default class DeleteScreeningComponent extends React.Component {
         axios.delete("http://localhost:7777/screenings/" + toDelete).then(res => {
             let temp = this.state.toPrint;
 
-            let deleted = temp.find(screeningtmp => screeningtmp.id == toDelete);
+            let deleted = temp.findIndex(screeningtmp => screeningtmp.id == toDelete);
             temp.splice(deleted, 1);
 
             this.setState({ toPrint: temp })

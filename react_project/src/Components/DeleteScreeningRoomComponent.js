@@ -37,7 +37,7 @@ export default class DeleteScreeningRoomComponent extends React.Component {
         axios.delete("http://localhost:7777/screeningRooms/" + toDelete).then(res => {
             let temp = this.state.screeningRooms;
 
-            let deleted = temp.find(screeningRoomtmp => screeningRoomtmp.id == toDelete);
+            let deleted = temp.findIndex(screeningRoomtmp => screeningRoomtmp.id == toDelete);
             temp.splice(deleted, 1);
 
             this.setState({ screeningRooms: temp })

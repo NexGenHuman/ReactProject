@@ -37,7 +37,7 @@ export default class DeleteMovieComponent extends React.Component {
         axios.delete("http://localhost:7777/movies/" + toDelete).then(res => {
             let temp = this.state.movies;
 
-            let deleted = temp.find(movietmp => movietmp.id == toDelete);
+            let deleted = temp.findIndex(movietmp => movietmp.id == toDelete);
             temp.splice(deleted, 1);
 
             this.setState({ movies: temp })
